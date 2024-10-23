@@ -24,7 +24,7 @@ export default function MainCards() {
                 <div className='w-full mt-5 lg:ml-0
                 '>
 
-                    <h2 className='mb-3 text-white '>Today's Hightlights</h2>
+                    <h2 className='mb-3 text-white '>Today`&apos;`s Hightlights</h2>
 
                     <CardsData />
                 </div>
