@@ -5,7 +5,7 @@ import CardsData from './cardsData'
 export default function MainCards() {
     return (
         <main className='flex flex-wrap justify-center w-full bg-[#100e1d] py-4 lg:w-9/12'>
-            <section className=' w-10/12'>
+            <section className=' w-10/12 mt-10'>
 
                 <header className='flex justify-end items-center w-full text-white gap-3 mb-8'>
 
