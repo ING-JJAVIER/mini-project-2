@@ -4,7 +4,7 @@ import Image from 'next/image'
 export default function CardsTime() {
     return (
         <main id='cardTime' className='flex justify-evenly w-full h-full rounded-md'>
-            <section className='grid grid-cols-2 md:grid-cols-5 lg:flex lg:flex-wrap gap-4 md:gap-2 lg:gap-10'>
+            <section className='grid grid-cols-2 md:grid-cols-5 lg:flex lg:flex-wrap gap-4 md:gap-10 lg:gap-10'>
 
                 <div className='flex flex-wrap justify-center w-24 h-32 p-3 bg-[#1e213a] rounded-lg'>
 

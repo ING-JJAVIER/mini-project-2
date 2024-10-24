@@ -1,15 +1,29 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 import Image from 'next/image'
-import MainCards from './mainCards'
+import Modal from './modal'
 
-export default function Aside() {
+
+export default function Aside({places}) {
+    const [modal, setModal] = useState(false);
+
+    const modalOpen = () => {
+        setModal(true);
+    }
+
+    const modalClose = () => {
+        setModal(false);
+    }
+
     return (
-        <main id='side' className='flex flex-wrap w-full bg-[#1e213a] lg:w-3/12'>
-            <section className='flex justify-center w-full'>
+        <main id='side' className='flex flex-wrap w-full bg-[#1e213a] lg:w-4/12'>
+            <section className='flex justify-center w-full relative'>
+
+                < Modal modalClose={modalClose}/>
 
                 <article className='flex flex-wrap  w-full '>
                     <div className='flex justify-between w-full h-12 px-5 pt-5'>
-                        <button className='flex justify-center items-center w-32 h-6  text-white text-xs font-semibold border rounded-md bg-[#6e707a] hover:bg-white hover:bg-opacity-50 active:text-sm' type="button">Search for Places</button>
+                        <button className='flex justify-center items-center w-32 h-6  text-white text-xs font-semibold border rounded-md bg-[#6e707a] hover:bg-white hover:bg-opacity-50 active:text-sm' type="button" onClick={modalOpen}>Search for Places</button>
 
                         <button className='flex justify-center items-center w-6 h-6  text-white text-lg font-semibold border rounded-full hover:bg-white hover:bg-opacity-35 active:border-lime-600' type="button">
                             <figure className='w-full h-full flex justify-center items-center '>
@@ -18,12 +32,12 @@ export default function Aside() {
                         </button>
                     </div>
 
-                    <div className='relative h-40 md:h-72 lg:h-40 w-full'>
+                    <div className='relative h-52 md:h-72 lg:h-60 w-full'>
                         <figure className='absolute z-[0] top-0 left-0 w-full h-full'>
                             <Image className='w-full h-full object-fill opacity-5' src='/Cloud-background.png' width={200} height={200} alt='image clouds' />
                         </figure>
 
-                        <figure className='absolute z-[1] top-1/3 left-24  md:top-1/3 md:left-56 lg:top-1/3 lg:left-1/3'>
+                        <figure className='absolute z-[1] top-1/3 left-[35%]  md:top-1/3 md:left-[35%] lg:top-1/3 lg:left-[40%]'>
                             <Image className='w-24 md:w-40 lg:w-20' src='/weather/03d.png' width={50} height={50} alt='image cloud' />
                         </figure>
                     </div>
