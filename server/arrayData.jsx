@@ -1,6 +1,6 @@
 'use server';
 import React from 'react';
-import { baseData } from '@/customHook/basedata';
+import { baseData } from '@/utilities/basedata';
 import Modal from '@/components/modal';
 
 
