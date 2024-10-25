@@ -1,10 +1,9 @@
 
 'use client'
-import React,{useState} from "react";
+import React, { useState } from "react";
 
 
-export default function Modal({ modalClose, places,
-}) {
+export default function Modal({ modalClose, places }) {
     const [filData, setFilData] = useState([]);
 
     const handleSearch = (e) => {
@@ -13,7 +12,6 @@ export default function Modal({ modalClose, places,
             item.city.toLowerCase().includes(city.toLowerCase()) ||
             item.country.toLowerCase().includes(country.toLowerCase())
         );
-        console.log(data)
         setFilData(data);
     };
 

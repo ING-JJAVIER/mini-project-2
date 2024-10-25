@@ -1,31 +1,26 @@
 'use server';
 import React from 'react';
-import BaseData from '../customHook/basedata';
+import { baseData } from '@/customHook/basedata';
+import Modal from '@/components/modal';
 
-async function ArrayData({ dataCities }) {
-  
-  if (!dataCities) {
-    console.error('dataCities está indefinido');
-    return null;
-  }
+
+async function ArrayData() {
+
+  const dataCities = await baseData()
 
   return (
 
     <div>
 
       {
+
         dataCities && dataCities?.map((item) => {
           const places = item;
           const key = item.id;
           console.log(places)
 
           return (
-            <>
-              <BaseData
-                key={key}
-                places={places}
-              />
-            </>
+            <Modal places={places} />
           )
         })
       }

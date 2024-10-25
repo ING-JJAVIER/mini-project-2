@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Modal from './modal'
 
 
-export default function Aside({places}) {
+export default function Aside() {
     const [modal, setModal] = useState(false);
 
     const modalOpen = () => {
@@ -34,7 +34,7 @@ export default function Aside({places}) {
 
                     <div className='relative h-52 md:h-72 lg:h-60 w-full'>
                         <figure className='absolute z-[0] top-0 left-0 w-full h-full'>
-                            <Image className='w-full h-full object-fill opacity-5' src='/Cloud-background.png' width={200} height={200} alt='image clouds' />
+                            <Image className='w-full h-full object-fill opacity-5' src='/Cloud-background.png' width={200} height={200} alt='image clouds' priority/>
                         </figure>
 
                         <figure className='absolute z-[1] top-1/3 left-[35%]  md:top-1/3 md:left-[35%] lg:top-1/3 lg:left-[40%]'>
