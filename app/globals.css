@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+*{
+    font-family: sans-serif;
+}
 
 ::-webkit-scrollbar {
     width: 10px;
@@ -13,7 +16,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #7520e55e;
+    background: #15032d57;
     border-radius: 5px;
 }
 

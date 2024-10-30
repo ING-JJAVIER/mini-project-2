@@ -1,23 +1,12 @@
+import cities from '@/public/cities.json'
 
-export default async function baseData() {
-
+export async function baseData(value) {
     try {
-        const data = await fetch('/cities.json')
-        if (!response.ok) {
-            console.error('Error en la respuesta:', response.statusText);
-            return [];
-        }
-        const countries = await data.json()
-        console.log('Datos extraídos:', countries)
+        const data = cities.filter((item) =>
+            item.name.toLowerCase().includes(value.toLowerCase()) ||
+            item.country.toLowerCase().includes(value.toLowerCase()))
 
-        return countries.map((item) => ({
-            key: item.id,
-            country: item.country,
-            city: item.name,
-            Ccode: item.country_code,
-            lat: item.lat,
-            lon: item.lon
-        }));
+        return data.slice(0, 20)
 
     } catch (error) {
         console.error('Error al obtener datos:', error);

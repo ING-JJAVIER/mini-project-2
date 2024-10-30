@@ -1,11 +1,13 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Modal from './modal'
-
+import { baseWeather } from '@/utilities/baseWeather'
 
 export default function Aside() {
     const [modal, setModal] = useState(false);
+    const [selectPlace, setSelectPlace] = useState(null);
+    const [weatherData, setWeatherData] = useState(null);
 
     const modalOpen = () => {
         setModal(true);
@@ -15,11 +17,30 @@ export default function Aside() {
         setModal(false);
     }
 
+    useEffect(() => {
+        const dataweather = async () => {
+            if (selectPlace) {
+                const { lat, lon } = selectPlace
+                const data = await baseWeather({ lat, lon })
+                setWeatherData(data)
+            }
+        }
+        dataweather()
+    }, [selectPlace]);
+
     return (
         <main id='side' className='flex flex-wrap w-full bg-[#1e213a] lg:w-4/12'>
             <section className='flex justify-center w-full relative'>
-
-                < Modal modalClose={modalClose}/>
+                {
+                    modal && (
+                        < Modal
+                            modalClose={modalClose}
+                            selectPlace={(place) => {
+                                setSelectPlace(place);
+                            }}
+                        />
+                    )
+                }
 
                 <article className='flex flex-wrap  w-full '>
                     <div className='flex justify-between w-full h-12 px-5 pt-5'>
@@ -34,7 +55,7 @@ export default function Aside() {
 
                     <div className='relative h-52 md:h-72 lg:h-60 w-full'>
                         <figure className='absolute z-[0] top-0 left-0 w-full h-full'>
-                            <Image className='w-full h-full object-fill opacity-5' src='/Cloud-background.png' width={200} height={200} alt='image clouds' priority/>
+                            <Image className='w-full h-full object-fill opacity-5' src='/Cloud-background.png' width={200} height={200} alt='image clouds' priority />
                         </figure>
 
                         <figure className='absolute z-[1] top-1/3 left-[35%]  md:top-1/3 md:left-[35%] lg:top-1/3 lg:left-[40%]'>
@@ -43,30 +64,40 @@ export default function Aside() {
                     </div>
 
                     <div className='flex flex-col justify-center w-full lg:justify-start'>
-                        <div className='flex justify-center items-end w-full gap-1'>
+                        {
+                            weatherData ? (
+                                <>
+                                    <div className='flex justify-center items-end w-full gap-1'>
 
-                            <h2 className=' text-white text-5xl font-semibold'>30</h2>
-                            <h2 className='text-xl text-[#a3a3b6] font-semibold'>°C</h2>
-                        </div>
+                                        <h2 className=' text-white text-6xl font-semibold'>{weatherData.temp.toFixed(0)}</h2>
+                                        <h2 className='text-4xl text-[#a3a3b6] font-semibold'>°C</h2>
+                                    </div>
 
-                        <h2 className='text-[#a3a3b6] text-xs font-semibold my-8 mx-auto '>Broken Clouds</h2>
+                                    <h2 className='text-[#a3a3b6] text-xl font-semibold my-8 mx-auto '>{weatherData.weather_main}</h2>
 
-                        <div className='flex mb-5 gap-4 mx-auto '>
-                            <h5 className='text-[#a3a3b6]  text-[.5rem] font-semibold  '>today</h5>
+                                    <div className='flex mb-5 gap-4 mx-auto '>
+                                        <h5 className='text-[#a3a3b6]  text-[.8rem] font-semibold  '>Today</h5>
 
-                            <h5 className='text-[#a3a3b6] text-[.5rem] font-semibold  '>Sun, 2 Jul</h5>
-                        </div>
+                                        <h5 className='text-[#a3a3b6] text-[.8rem] font-semibold  '>{weatherData.date}</h5>
+                                    </div>
 
+                                    <h6 className='flex justify-center items-center text-[#a3a3b6] text-[.7rem] font-semibold font-mono gap-1 h-6 mb-10'>
+                                        <figure className='h-full'>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                            </svg>
 
-                        <h6 className='flex justify-center items-center text-[#a3a3b6] text-[.5rem] font-semibold font-mono gap-1 h-6 mb-10'>
-                            <figure className='h-full'>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                                </svg>
+                                        </figure>
+                                        {weatherData.name}, {selectPlace.country}</h6>
+                                </>
+                            ) : (
+                                <div className='text-white text-center'>
+                                    <h2>Cargando datos del clima...</h2>
+                                </div>
+                            )
+                        }
 
-                            </figure>
-                            ubicacion</h6>
                     </div>
 
                 </article>

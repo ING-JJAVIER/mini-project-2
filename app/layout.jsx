@@ -1,16 +1,11 @@
-import localFont from "next/font/local";
 import "./globals.css";
+import {Raleway} from "next/font/google"
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+const raleway = Raleway({
+  subsets: ['latin'],
+  display: 'swap',
+  variable:'--font-raleway'
+})
 
 export const metadata = {
   title: "Weather Central",
@@ -19,10 +14,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en" className={`${raleway.variable}`}>
+      <body>
         {children}
       </body>
     </html>
