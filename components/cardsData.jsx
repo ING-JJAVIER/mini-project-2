@@ -1,22 +1,21 @@
-import React from 'react'
 import Image from 'next/image'
 import BarPorcent from './barPorcent'
 
-export default function CardsData() {
+export default function CardsData({ humidity, visibility, airPress, windSpeed }) {
+
+
   return (
     <main id='cardsData' className='flex justify-evenly w-full h-full rounded-md'>
-      
-      
+
       <section className='grid grid-cols-1 md:grid-cols-2 gap-4 w-full'>
-        
-        
+
         <div className='flex flex-col items-center w-full h-32 p-3 bg-[#1e213a] rounded-lg'>
 
           <h4 className='w-full h-4 text-white text-xs text-center mb-4'>Wind Status</h4>
 
           <div className='flex justify-center items-end h-10 mb-4 gap-1'>
             <h2 className='flex justify-center w-full text-white text-5xl'>
-              5.39
+              {windSpeed}
             </h2>
             <h2 className='flex justify-center w-full text-white text-4xl'>
               ms
@@ -30,9 +29,7 @@ export default function CardsData() {
             <h5 className='text-[#a3a3b6] text-xs'>NW</h5>
           </div>
 
-
         </div>
-
 
         <div className='flex flex-col items-center w-full h-32 p-3 bg-[#1e213a] rounded-lg'>
 
@@ -40,17 +37,16 @@ export default function CardsData() {
 
           <div className='flex justify-center items-end h-10 mb-4 gap-1'>
             <h2 className='flex justify-center w-full text-white text-5xl'>
-              51
+              {humidity}
             </h2>
             <h2 className='flex justify-center w-full text-white text-4xl'>
               %
             </h2>
           </div>
 
-          <BarPorcent />
+          <BarPorcent humidity={humidity} />
 
         </div>
-
 
         <div className='flex flex-col items-center w-full h-24 p-3 bg-[#1e213a] rounded-lg'>
 
@@ -58,7 +54,7 @@ export default function CardsData() {
 
           <div className='flex justify-center items-end h-10 mb-4 gap-1'>
             <h2 className='flex justify-center w-full text-white text-4xl'>
-              16093.40
+              {visibility}
             </h2>
             <h2 className='flex justify-center w-full text-white text-2xl'>
               km
@@ -68,19 +64,21 @@ export default function CardsData() {
 
         <div className='flex flex-col items-center w-full h-24 p-3 bg-[#1e213a] rounded-lg'>
 
-          <h4 className='w-full h-4 text-white text-xs text-center mb-4'>Air Presure</h4>
+          <h4 className='w-full h-4 text-white text-xs text-center mb-4'>Air Pressure</h4>
 
           <div className='flex justify-center items-end h-10 mb-4 gap-1'>
             <h2 className='flex justify-center w-full text-white text-4xl'>
-              1008
+              {airPress}
             </h2>
             <h2 className='flex justify-center w-full text-white text-2xl'>
               mb
             </h2>
           </div>
+
         </div>
 
       </section>
+
     </main>
   )
 }

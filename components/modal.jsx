@@ -8,8 +8,14 @@ export default function Modal({ modalClose, selectPlace, }) {
 
     const handleSearch = async (e) => {
         e.preventDefault();
-        const data = await baseData(search);
-        setFilData(data);
+        setFilData([]); 
+        try {
+            const data = await baseData(search);
+            setFilData(data);
+        } catch (error) {
+            console.error("Error fetching data: ", error);
+            setFilData([]);
+        }
     };
 
     const selecUser = (place) => {

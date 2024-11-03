@@ -4,10 +4,12 @@ import Image from 'next/image'
 import Modal from './modal'
 import { baseWeather } from '@/utilities/baseWeather'
 
-export default function Aside() {
+export default function Aside({ tempNow, date, weatherMain, name, country }) {
     const [modal, setModal] = useState(false);
     const [selectPlace, setSelectPlace] = useState(null);
     const [weatherData, setWeatherData] = useState(null);
+    const [userSelected, setUserSelected] = useState(false);
+
 
     const modalOpen = () => {
         setModal(true);
@@ -15,6 +17,19 @@ export default function Aside() {
 
     const modalClose = () => {
         setModal(false);
+    }
+
+    const myUbication = () => {
+
+        setWeatherData({
+            tempNow,
+            date,
+            weatherMain,
+            name,
+            
+        });
+        setUserSelected(true);
+        
     }
 
     useEffect(() => {
@@ -46,7 +61,7 @@ export default function Aside() {
                     <div className='flex justify-between w-full h-12 px-5 pt-5'>
                         <button className='flex justify-center items-center w-32 h-6  text-white text-xs font-semibold border rounded-md bg-[#6e707a] hover:bg-white hover:bg-opacity-50 active:text-sm' type="button" onClick={modalOpen}>Search for Places</button>
 
-                        <button className='flex justify-center items-center w-6 h-6  text-white text-lg font-semibold border rounded-full hover:bg-white hover:bg-opacity-35 active:border-lime-600' type="button">
+                        <button className='flex justify-center items-center w-6 h-6  text-white text-lg font-semibold border rounded-full hover:bg-white hover:bg-opacity-35 active:border-lime-600' type="button" onClick={myUbication}>
                             <figure className='w-full h-full flex justify-center items-center '>
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M440-42v-80q-125-14-214.5-103.5T122-440H42v-80h80q14-125 103.5-214.5T440-838v-80h80v80q125 14 214.5 103.5T838-520h80v80h-80q-14 125-103.5 214.5T520-122v80h-80Zm40-158q116 0 198-82t82-198q0-116-82-198t-198-82q-116 0-198 82t-82 198q0 116 82 198t198 82Zm0-120q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm0-80q33 0 56.5-23.5T560-480q0-33-23.5-56.5T480-560q-33 0-56.5 23.5T400-480q0 33 23.5 56.5T480-400Zm0-80Z" /></svg>
                             </figure>
@@ -65,11 +80,12 @@ export default function Aside() {
 
                     <div className='flex flex-col justify-center w-full lg:justify-start'>
                         {
+
                             weatherData ? (
                                 <>
                                     <div className='flex justify-center items-end w-full gap-1'>
 
-                                        <h2 className=' text-white text-6xl font-semibold'>{weatherData.temp.toFixed(0)}</h2>
+                                        <h2 className=' text-white text-6xl font-semibold'>{weatherData.tempNow} </h2>
                                         <h2 className='text-4xl text-[#a3a3b6] font-semibold'>°C</h2>
                                     </div>
 
@@ -92,16 +108,41 @@ export default function Aside() {
                                         {weatherData.name}, {selectPlace.country}</h6>
                                 </>
                             ) : (
-                                <div className='text-white text-center'>
-                                    <h2>Cargando datos del clima...</h2>
-                                </div>
+                                /*   <div className="flex items-center justify-center w-full h-full my-8 bg-transparent ">
+                                      <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
+                                          loading...
+                                      </div>
+                                  </div> */
+                                <>
+
+                                    <div className='flex justify-center items-end w-full gap-1'>
+
+                                        <h2 className=' text-white text-6xl font-semibold'>{tempNow} </h2>
+                                        <h2 className='text-4xl text-[#a3a3b6] font-semibold'>°C</h2>
+                                    </div>
+
+                                    <h2 className='text-[#a3a3b6] text-xl font-semibold my-8 mx-auto '>{weatherMain}</h2>
+
+                                    <div className='flex mb-5 gap-4 mx-auto '>
+                                        <h5 className='text-[#a3a3b6]  text-[.8rem] font-semibold  '>Today</h5>
+
+                                        <h5 className='text-[#a3a3b6] text-[.8rem] font-semibold  '>{date}</h5>
+                                    </div>
+
+                                    <h6 className='flex justify-center items-center text-[#a3a3b6] text-[.7rem] font-semibold font-mono gap-1 h-6 mb-10'>
+                                        <figure className='h-full'>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                            </svg>
+
+                                        </figure>
+                                        {name}, {country}</h6>
+                                </>
                             )
                         }
-
                     </div>
-
                 </article>
-
             </section>
         </main>
     )
