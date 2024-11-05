@@ -1,4 +1,3 @@
-
 import { baseData } from '@/utilities/basedata';
 
 export async function arrayData() {

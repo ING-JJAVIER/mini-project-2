@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Modal from './modal'
 import { baseWeather } from '@/utilities/baseWeather'
+import { baseDays } from '@/utilities/baseDays'
 
-export default function Aside({ tempNow, date, weatherMain, name, country }) {
+export default function Aside({ tempNow, date, weatherMain, name, country, setLoading, loading, days, units }) {
     const [modal, setModal] = useState(false);
     const [selectPlace, setSelectPlace] = useState(null);
     const [weatherData, setWeatherData] = useState(null);
     const [userSelected, setUserSelected] = useState(false);
-
+    const tempUnit = units === 'metric' ? '°C' : '°F';
 
     const modalOpen = () => {
         setModal(true);
@@ -20,24 +21,26 @@ export default function Aside({ tempNow, date, weatherMain, name, country }) {
     }
 
     const myUbication = () => {
-
         setWeatherData({
             tempNow,
             date,
-            weatherMain,
+            weather_main: weatherMain,
             name,
-            
+            country
         });
         setUserSelected(true);
-        
+        setLoading(false)
     }
 
     useEffect(() => {
         const dataweather = async () => {
             if (selectPlace) {
+                setLoading(true);
                 const { lat, lon } = selectPlace
-                const data = await baseWeather({ lat, lon })
-                setWeatherData(data)
+                const data = await baseWeather({ lat, lon, units });
+                const day = baseDays({ lat, lon });
+                setWeatherData(data, day);
+                setLoading(false);
             }
         }
         dataweather()
@@ -69,64 +72,43 @@ export default function Aside({ tempNow, date, weatherMain, name, country }) {
                     </div>
 
                     <div className='relative h-52 md:h-72 lg:h-60 w-full'>
+
+
+
                         <figure className='absolute z-[0] top-0 left-0 w-full h-full'>
                             <Image className='w-full h-full object-fill opacity-5' src='/Cloud-background.png' width={200} height={200} alt='image clouds' priority />
                         </figure>
 
-                        <figure className='absolute z-[1] top-1/3 left-[35%]  md:top-1/3 md:left-[35%] lg:top-1/3 lg:left-[40%]'>
-                            <Image className='w-24 md:w-40 lg:w-20' src='/weather/03d.png' width={50} height={50} alt='image cloud' />
-                        </figure>
+                        {
+                            days && days.map((day, index) => (
+                                <figure key={index} className='absolute z-[1] top-1/3 left-[35%]  md:top-1/3 md:left-[35%] lg:top-1/3 lg:left-[40%]'>
+                                    <Image className='w-24 md:w-40 lg:w-20' src={`/weather/${day.weatherIcon}.png`} width={50} height={50} alt='image cloud' />
+                                </figure>
+                            ))
+                        }
                     </div>
 
                     <div className='flex flex-col justify-center w-full lg:justify-start'>
                         {
-
-                            weatherData ? (
-                                <>
-                                    <div className='flex justify-center items-end w-full gap-1'>
-
-                                        <h2 className=' text-white text-6xl font-semibold'>{weatherData.tempNow} </h2>
-                                        <h2 className='text-4xl text-[#a3a3b6] font-semibold'>°C</h2>
+                            loading ? (
+                                <div className="flex items-center justify-center w-full h-full my-8 bg-transparent ">
+                                    <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
+                                        loading...
                                     </div>
-
-                                    <h2 className='text-[#a3a3b6] text-xl font-semibold my-8 mx-auto '>{weatherData.weather_main}</h2>
-
-                                    <div className='flex mb-5 gap-4 mx-auto '>
-                                        <h5 className='text-[#a3a3b6]  text-[.8rem] font-semibold  '>Today</h5>
-
-                                        <h5 className='text-[#a3a3b6] text-[.8rem] font-semibold  '>{weatherData.date}</h5>
-                                    </div>
-
-                                    <h6 className='flex justify-center items-center text-[#a3a3b6] text-[.7rem] font-semibold font-mono gap-1 h-6 mb-10'>
-                                        <figure className='h-full'>
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                                            </svg>
-
-                                        </figure>
-                                        {weatherData.name}, {selectPlace.country}</h6>
-                                </>
+                                </div>
                             ) : (
-                                /*   <div className="flex items-center justify-center w-full h-full my-8 bg-transparent ">
-                                      <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
-                                          loading...
-                                      </div>
-                                  </div> */
                                 <>
-
                                     <div className='flex justify-center items-end w-full gap-1'>
-
-                                        <h2 className=' text-white text-6xl font-semibold'>{tempNow} </h2>
-                                        <h2 className='text-4xl text-[#a3a3b6] font-semibold'>°C</h2>
+                                        <h2 className=' text-white text-6xl font-semibold'>{weatherData ? weatherData.tempNow : tempNow} </h2>
+                                        <h2 className='text-4xl text-[#a3a3b6] font-semibold'>{tempUnit}</h2>
                                     </div>
 
-                                    <h2 className='text-[#a3a3b6] text-xl font-semibold my-8 mx-auto '>{weatherMain}</h2>
+                                    <h2 className='text-[#a3a3b6] text-xl font-semibold my-8 mx-auto '>{weatherData ? weatherData.weather_main : weatherMain}</h2>
 
                                     <div className='flex mb-5 gap-4 mx-auto '>
                                         <h5 className='text-[#a3a3b6]  text-[.8rem] font-semibold  '>Today</h5>
 
-                                        <h5 className='text-[#a3a3b6] text-[.8rem] font-semibold  '>{date}</h5>
+                                        <h5 className='text-[#a3a3b6] text-[.8rem] font-semibold  '>{weatherData ? weatherData.date : date}</h5>
                                     </div>
 
                                     <h6 className='flex justify-center items-center text-[#a3a3b6] text-[.7rem] font-semibold font-mono gap-1 h-6 mb-10'>
@@ -137,7 +119,7 @@ export default function Aside({ tempNow, date, weatherMain, name, country }) {
                                             </svg>
 
                                         </figure>
-                                        {name}, {country}</h6>
+                                        {weatherData ? `${weatherData.name}, ${selectPlace.country}` : `${name}, ${country}`}</h6>
                                 </>
                             )
                         }

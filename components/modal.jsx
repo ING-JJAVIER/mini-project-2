@@ -2,7 +2,7 @@ import { baseData } from "@/utilities/basedata";
 import React, { useState } from "react";
 import Image from "next/image";
 
-export default function Modal({ modalClose, selectPlace, }) {
+export default function Modal({ modalClose, selectPlace}) {
     const [filData, setFilData] = useState([]);
     const [search, setSearch] = useState('');
 
@@ -20,7 +20,7 @@ export default function Modal({ modalClose, selectPlace, }) {
 
     const selecUser = (place) => {
         selectPlace(place);
-        modalClose();
+        modalClose(); 
     }
 
     return (

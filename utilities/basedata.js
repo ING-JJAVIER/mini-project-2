@@ -6,7 +6,7 @@ export async function baseData(value) {
             item.name.toLowerCase().includes(value.toLowerCase()) ||
             item.country.toLowerCase().includes(value.toLowerCase()))
 
-        return data.slice(0, 20)
+        return data.slice(0, 15)
 
     } catch (error) {
         console.error('Error al obtener datos:', error);

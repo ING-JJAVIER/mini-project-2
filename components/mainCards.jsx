@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import CardsTime from './cardsTime'
 import CardsData from './cardsData'
 
 
-export default function MainCards({ humidity, visibility, airPress,
-    windSpeed }) {
+export default function MainCards({ humidity, visibility, airPress, windSpeed, windDirection, loading, days, units, onUnitChange }) {
 
     return (
         <main className='flex flex-wrap justify-center w-full bg-[#100e1d] py-4 lg:w-9/12'>
@@ -12,14 +11,14 @@ export default function MainCards({ humidity, visibility, airPress,
 
                 <header className='flex justify-end items-center w-full text-white gap-3 mb-8'>
 
-                    <button className=' w-8 h-8 rounded-full text-sm font-semibold bg-[#585676] focus-within:bg-white focus-within:text-black' type="button" value='°C'>°C</button>
+                    <button className={`w-8 h-8 rounded-full text-sm font-semibold ${units === 'metric' ? 'bg-white text-black' : 'bg-[#585676]'} focus-within:bg-white focus-within:text-black`} type="button" onClick={() => onUnitChange('metric')}>°C</button>
 
-                    <button className=' w-8 h-8 rounded-full text-sm font-semibold bg-[#585676] focus-within:bg-white focus-within:text-black' type="button" value='°F'>°F</button>
+                    <button className={`w-8 h-8 rounded-full text-sm font-semibold ${units === 'imperial' ? 'bg-white text-black' : 'bg-[#585676]'} focus-within:bg-white focus-within:text-black`} type="button" onClick={() => onUnitChange('imperial')}>°F</button>
 
                 </header>
 
                 <div>
-                    <CardsTime />
+                    <CardsTime days={days} units={units} loading={loading} />
                 </div>
 
                 <div className='w-full mt-5 lg:ml-0'>
@@ -31,6 +30,9 @@ export default function MainCards({ humidity, visibility, airPress,
                         visibility={visibility}
                         airPress={airPress}
                         windSpeed={windSpeed}
+                        units={units}
+                        loading={loading}
+                        windDirection={windDirection}
                     />
 
                 </div>
